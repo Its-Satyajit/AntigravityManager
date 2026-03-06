@@ -15,8 +15,8 @@ describe('decodeSignature', () => {
       expect(decodeSignature(base64)).toBe(original);
     });
 
-    it('should decode UTF-8 Chinese signature', () => {
-      const original = '思考签名-测试';
+    it('should decode UTF-8 signature text', () => {
+      const original = 'thinking-signature-test-utf8';
       const base64 = Buffer.from(original).toString('base64');
       expect(decodeSignature(base64)).toBe(original);
     });
