@@ -123,3 +123,14 @@ build/
 cli/aliases.json
 *.backup
 accounts_backup.json
+
+# Tooling and Caches
+.agent/
+.agents/
+electron-packager/
+node-compile-cache/
+.pnpm-debug.log
+test.db
+build.log
+appimagetool
+squashfs-root/

@@ -1,0 +1,99 @@
+diff --git a/dist/src/MakerAppimage.js b/dist/src/MakerAppimage.js
+index a57b183ad759c91aa36691a430e87c385ba63f62..1c4c0dac98ccaf3274e8b79069dc0538a7229bf4 100644
+--- a/dist/src/MakerAppimage.js
++++ b/dist/src/MakerAppimage.js
+@@ -140,8 +140,9 @@ class MakerAppImage extends maker_base_1.default {
+                 args.push(config.template);
+             }
+             const result = yield appBuilder.executeAppBuilderAsJson(args);
+-            yield (0, patch_apprun_1.patchAppImage)(appPath);
+-            return [appPath];
++            const actualAppPath = result && result.length > 0 ? result[0] : appPath;
++            yield (0, patch_apprun_1.patchAppImage)(actualAppPath);
++            return [actualAppPath];
+         });
+     }
+ }
+diff --git a/dist/src/patch-apprun.js b/dist/src/patch-apprun.js
+index 5ade06de607268e6a9a88e7cc4f01d7ca1f7dce1..411a11e2a4c1ecb7bc6094283b175bad959f1520 100644
+--- a/dist/src/patch-apprun.js
++++ b/dist/src/patch-apprun.js
+@@ -19,7 +19,7 @@ const path_1 = __importDefault(require("path"));
+ const scriptPath = path_1.default.resolve(__dirname, "../../scripts/patch-apprun.sh");
+ function patchAppImage(appFileName) {
+     return __awaiter(this, void 0, void 0, function* () {
+-        (0, child_process_1.execSync)(`bash ${scriptPath} ${appFileName}`);
++        (0, child_process_1.execSync)(`bash "${scriptPath}" "${appFileName}"`);
+     });
+ }
+ exports.patchAppImage = patchAppImage;
+diff --git a/scripts/patch-apprun.sh b/scripts/patch-apprun.sh
+index bd3e1abec8148a56edb67cee2a7acf66cea7d5a0..f2cf31d8b0007044c9ea3c2803f7d7352829a2cb 100644
+--- a/scripts/patch-apprun.sh
++++ b/scripts/patch-apprun.sh
+@@ -1,5 +1,5 @@
+ # Adopted from https://gist.github.com/neilcsmith-net/69bcb23bcc6698815438dc4e3df6caa3
+-
++set -x
+ # INPUT_APPIMAGE must be absolute path
+ INPUT_APPIMAGE=$1
+ 
+@@ -9,17 +9,17 @@ APPIMAGETOOL_URL="https://github.com/AppImage/AppImageKit/releases/download/cont
+ 
+ TMP_DIR=$(mktemp -d)
+ 
+-cd $TMP_DIR
+-cp $INPUT_APPIMAGE .
++cd "$TMP_DIR"
++cp "$INPUT_APPIMAGE" .
+ 
+ # get the filename of the AppImage
+ APP_IMAGE_TMP=$(basename -- "$INPUT_APPIMAGE")
+ 
+-echo $APP_IMAGE_TMP
++echo "$APP_IMAGE_TMP"
+ 
+ # Extract AppImage for the INPUT_APPIMAGE, which will be put into squashfs-root
+ chmod +x "$APP_IMAGE_TMP"
+-"./$APP_IMAGE_TMP" --appimage-extract
++"./$APP_IMAGE_TMP" --appimage-extract || echo "Failed to extract AppImage! EXIT CODE: $?"
+ 
+ # Download appimagetool
+ wget -c "$APPIMAGETOOL_URL" -O appimagetool
+@@ -50,7 +50,7 @@ chmod +x "$file"
+ # AppRun patched. Repack the AppImage
+ ./appimagetool ./squashfs-root/ "$INPUT_APPIMAGE"
+ 
+-rm -rf $TMP_DIR
++rm -rf "$TMP_DIR"
+ 
+ # Done
+ echo "patch-app-image.sh: Done."
+\ No newline at end of file
+diff --git a/src/MakerAppimage.ts b/src/MakerAppimage.ts
+index e78688140687e28945294d24c6036ecbff742823..612df8925ab2044bd2d89c85926cc4b4f4162039 100644
+--- a/src/MakerAppimage.ts
++++ b/src/MakerAppimage.ts
+@@ -147,8 +147,9 @@ export default class MakerAppImage extends MakerBase<MakerAppImageConfig> {
+ 
+     const result = await appBuilder.executeAppBuilderAsJson(args);
+ 
+-    await patchAppImage(appPath);
++    const actualAppPath = Array.isArray(result) && result.length > 0 ? result[0] : appPath;
++    await patchAppImage(actualAppPath);
+ 
+-    return [appPath];
++    return [actualAppPath];
+   }
+ }
+diff --git a/src/patch-apprun.ts b/src/patch-apprun.ts
+index 5d3d79e6d90475c91ebcee99d41bcdc7d04fa541..f04df6e0e528fd71915223467cb7e2a54c74ba98 100644
+--- a/src/patch-apprun.ts
++++ b/src/patch-apprun.ts
+@@ -6,5 +6,5 @@ import path from "path";
+ const scriptPath = path.resolve(__dirname, "../../scripts/patch-apprun.sh");
+ 
+ export async function patchAppImage(appFileName: string) {
+-  execSync(`bash ${scriptPath} ${appFileName}`);
++  execSync(`bash "${scriptPath}" "${appFileName}"`);
+ }

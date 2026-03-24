@@ -242,7 +242,7 @@ export async function switchCloudAccount(accountId: string): Promise<void> {
           }
 
           // 4. Inject Token
-          CloudAccountRepo.injectCloudToken(account);
+          await CloudAccountRepo.injectCloudToken(account);
 
           // 5. Update usage and active status
           CloudAccountRepo.updateLastUsed(account.id);
@@ -254,7 +254,7 @@ export async function switchCloudAccount(accountId: string): Promise<void> {
       });
     } catch (err: any) {
       logger.error('Failed to switch cloud account', err);
-      throw new Error(`Switch failed: ${err.message || 'Unknown error'}`);
+      throw new Error(`Switch failed: ${err.message || 'Unknown error'}`, { cause: err });
     }
   });
 }

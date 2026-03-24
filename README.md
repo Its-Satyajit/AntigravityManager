@@ -193,8 +193,8 @@ Download the latest release for your platform from the [Releases](https://github
 
 #### Prerequisites
 
-- Node.js v18 or higher
-- npm or yarn
+- Node.js v20 or higher
+- pnpm v10 or higher
 
 #### Steps
 
@@ -204,13 +204,13 @@ git clone https://github.com/Draculabo/AntigravityManager.git
 cd AntigravityManager
 
 # Install dependencies
-npm install
+pnpm install
 
 # Start development
-npm start
+pnpm start
 
 # Build for production
-npm run make
+pnpm run make
 ```
 
 ---
@@ -234,14 +234,14 @@ npm run make
 
 | Command | Description |
 |---------|-------------|
-| `npm start` | Start the app in development mode |
-| `npm run lint` | Run ESLint to check for code issues |
-| `npm run format:write` | Format code with Prettier |
-| `npm run test:unit` | Run unit tests with Vitest |
-| `npm run test:e2e` | Run E2E tests with Playwright |
-| `npm run test:all` | Run all tests |
-| `npm run type-check` | Run TypeScript type checking |
-| `npm run make` | Build production packages |
+| `pnpm start` | Start the app in development mode |
+| `pnpm run lint` | Run ESLint to check for code issues |
+| `pnpm run format:write` | Format code with Prettier |
+| `pnpm run test:unit` | Run unit tests with Vitest |
+| `pnpm run test:e2e` | Run E2E tests with Playwright |
+| `pnpm run test:all` | Run all tests |
+| `pnpm run type-check` | Run TypeScript type checking |
+| `pnpm run make` | Build production packages |
 
 ### Project Structure
 
@@ -265,8 +265,8 @@ AntigravityManager/
 <summary><b>Q: The app won't start?</b></summary>
 
 Please check:
-1. Make sure all dependencies are installed: `npm install`
-2. Check if Node.js version is >= 18
+1. Make sure all dependencies are installed: `pnpm install`
+2. Check if Node.js version is >= 20
 3. Try deleting `node_modules` and reinstalling
 
 </details>

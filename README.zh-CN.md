@@ -192,8 +192,8 @@
 
 #### 前置要求
 
-- Node.js v18 或更高版本
-- npm 或 yarn
+- Node.js v20 或更高版本
+- pnpm v10 或更高版本
 
 #### 步骤
 
@@ -203,13 +203,13 @@ git clone https://github.com/Draculabo/AntigravityManager.git
 cd AntigravityManager
 
 # 安装依赖
-npm install
+pnpm install
 
 # 启动开发模式
-npm start
+pnpm start
 
 # 构建生产版本
-npm run make
+pnpm run make
 ```
 
 ---
@@ -233,14 +233,14 @@ npm run make
 
 | 命令                   | 描述                     |
 | ---------------------- | ------------------------ |
-| `npm start`            | 启动开发模式             |
-| `npm run lint`         | 运行 ESLint 检查         |
-| `npm run format:write` | 使用 Prettier 格式化代码 |
-| `npm run test:unit`    | 运行单元测试             |
-| `npm run test:e2e`     | 运行 E2E 测试            |
-| `npm run test:all`     | 运行所有测试             |
-| `npm run type-check`   | TypeScript 类型检查      |
-| `npm run make`         | 构建生产包               |
+| `pnpm start`           | 启动开发模式             |
+| `pnpm run lint`        | 运行 ESLint 检查         |
+| `pnpm run format:write`| 使用 Prettier 格式化代码 |
+| `pnpm run test:unit`   | 运行单元测试             |
+| `pnpm run test:e2e`    | 运行 E2E 测试            |
+| `pnpm run test:all`    | 运行所有测试             |
+| `pnpm run type-check`  | TypeScript 类型检查      |
+| `pnpm run make`        | 构建生产包               |
 
 ### 项目结构
 
@@ -265,8 +265,8 @@ AntigravityManager/
 
 请检查：
 
-1. 确保已安装所有依赖：`npm install`
-2. 检查 Node.js 版本是否 >= 18
+1. 确保已安装所有依赖：`pnpm install`
+2. 检查 Node.js 版本是否 >= 20
 3. 尝试删除 `node_modules` 后重新安装
 
 </details>

@@ -1,0 +1,15 @@
+onlyBuiltDependencies:
+  - '@bitdisaster/exe-icon-extractor'
+  - '@nestjs/core'
+  - '@sentry/cli'
+  - '@swc/core'
+  - better-sqlite3
+  - electron
+  - electron-winstaller
+  - esbuild
+  - keytar
+  - protobufjs
+  - sharp
+
+patchedDependencies:
+  '@pengx17/electron-forge-maker-appimage': patches/@pengx17__electron-forge-maker-appimage.patch

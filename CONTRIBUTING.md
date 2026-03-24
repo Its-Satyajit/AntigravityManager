@@ -36,32 +36,32 @@ This project and everyone participating in it is governed by our [Code of Conduc
 
 ### Prerequisites
 
-- Node.js v18 or higher
-- npm (comes with Node.js)
+- Node.js v20 or higher
+- pnpm v10 or higher
 - Git
 
 ### Installation
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start development server
-npm start
+pnpm start
 ```
 
 ### Available Scripts
 
 | Command                | Description                         |
 | ---------------------- | ----------------------------------- |
-| `npm start`            | Start the app in development mode   |
-| `npm run lint`         | Run ESLint to check for code issues |
-| `npm run format:write` | Format code with Prettier           |
-| `npm run test:unit`    | Run unit tests with Vitest          |
-| `npm run test:e2e`     | Run E2E tests with Playwright       |
-| `npm run test:all`     | Run all tests                       |
-| `npm run type-check`   | Run TypeScript type checking        |
-| `npm run make`         | Build production packages           |
+| `pnpm start`            | Start the app in development mode   |
+| `pnpm run lint`         | Run ESLint to check for code issues |
+| `pnpm run format:write` | Format code with Prettier           |
+| `pnpm run test:unit`    | Run unit tests with Vitest          |
+| `pnpm run test:e2e`     | Run E2E tests with Playwright       |
+| `pnpm run test:all`     | Run all tests                       |
+| `pnpm run type-check`   | Run TypeScript type checking        |
+| `pnpm run make`         | Build production packages           |
 
 ## ✏️ Making Changes
 
@@ -121,9 +121,9 @@ docs(readme): update installation instructions
 
 1. **Update documentation** if you're changing functionality
 2. **Add tests** for new features
-3. **Ensure all tests pass**: `npm run test:all`
-4. **Ensure code is formatted**: `npm run format:write`
-5. **Ensure no lint errors**: `npm run lint`
+3. **Ensure all tests pass**: `pnpm run test:all`
+4. **Ensure code is formatted**: `pnpm run format:write`
+5. **Ensure no lint errors**: `pnpm run lint`
 6. **Push to your fork** and create a Pull Request
 
 ### PR Checklist

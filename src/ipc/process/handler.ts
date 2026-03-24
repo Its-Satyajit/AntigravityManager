@@ -202,6 +202,17 @@ export async function closeAntigravity(): Promise<void> {
       } catch {
         // Ignore failure, we play hard next.
       }
+    } else if (platform === 'linux') {
+      try {
+        logger.info('Attempting graceful exit via SIGTERM...');
+        execSync('pkill -15 -x antigravity', {
+          stdio: 'ignore',
+          timeout: 2000,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      } catch {
+        // Ignore failure
+      }
     }
 
     // Stage 2 & 3: Find and Kill remaining processes
@@ -229,7 +240,7 @@ export async function closeAntigravity(): Promise<void> {
                 encoding: 'utf-8',
                 maxBuffer: 1024 * 1024 * 10,
               });
-            } catch (innerE) {
+            } catch {
               // Both failed, throw original or log? Throwing lets the outer catch handle it (returning empty list)
               throw e;
             }
@@ -273,7 +284,7 @@ export async function closeAntigravity(): Promise<void> {
             if (parts.length < 2) continue;
 
             const pid = parseInt(parts[0]);
-            if (isNaN(pid)) continue;
+            if (Number.isNaN(pid)) continue;
             const rest = parts.slice(1).join(' ');
             if (rest.includes('Antigravity') || rest.includes('antigravity')) {
               processList.push({ pid, name: parts[1], cmd: rest });
@@ -332,7 +343,16 @@ export async function closeAntigravity(): Promise<void> {
       if (platform === 'win32') {
         execSync('taskkill /F /IM "Antigravity.exe" /T', { stdio: 'ignore' });
       } else {
-        execSync('pkill -9 -f Antigravity', { stdio: 'ignore' });
+        // Safer pkill on Linux: match only 'antigravity' process name exactly,
+        // which avoids matching the 'AntigravityManager' path in command line.
+        try {
+          execSync('pkill -9 -x antigravity', { stdio: 'ignore' });
+        } catch {
+          // If -x doesn't exist or fails, use a more targeted -f
+          execSync("pkill -9 -f '^antigravity$' || pkill -9 -f '/antigravity$'", {
+            stdio: 'ignore',
+          });
+        }
       }
     } catch {
       // Ignore
